@@ -46,4 +46,34 @@
   /* padding: 2rem; */
   text-align: center;
   min-height: 98vh;
+}.custom-modal {
+  max-width: 400px;
+}
+
+.custom-modal .modal-content {
+  width: 500px;
+  height: 400px;
+  border-radius: 20px;
+  overflow: hidden;
+  background-image: url("https://images.unsplash.com/photo-1506744038136-46273834b3fb");
+  background-size: cover;
+  background-position: center;
+  color: white;
+  position: relative;
+}
+
+/* Optional dark overlay for readability */
+.custom-modal .modal-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Make content appear above overlay */
+.custom-modal .modal-header,
+.custom-modal .modal-body,
+.custom-modal .modal-footer {
+  position: relative;
+  z-index: 2;
 }
