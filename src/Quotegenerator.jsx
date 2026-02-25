@@ -1,13 +1,24 @@
 import { useEffect, useState } from "react"
 import { getFavorites, saveFavorites } from "./util/favorites";
+import imageOflove from "./assets/love.jfif";
+import imageOffaith from "./assets/faith.jfif";
+import imageOfhappiness from "./assets/happiness.png";
+import imageOfhumor from "./assets/humor.avif";
+import imageOfinspirational from "./assets/inspirational.jpg";
+import imageOfrelationship from "./assets/relationship.jpg";
+import imageOfsuccess from "./assets/success.webp";
+import imageRandom from "./assets/random2.jpg"
 export default function Quotegenerator(params) {
+  
     const [darkbutton,setDarkMode] = useState(false);
     const [favorites, setFavorites] = useState(getFavorites());
     const [quote_data, setQuote] = useState(false);
     const [quote_day, setQuoteOfTheDay] = useState(false);
     const [selectCategory, setCategory] = useState("");
+    let [imageName, setimageName] = useState("");
     const [reload, setReload] = useState(0);
-    const categories = ["wisdom","philosophy","life","truth","inspirational", "relationships","love","faith","humor","success","courage","happiness","art","writing","fear","nature","time","freedom","death","leadership"];
+    const categories = ["inspirational", "relationships","love","faith","humor","success","happiness","random"];
+    const imageBack = [imageOfinspirational,imageOfrelationship,imageOflove,imageOffaith,imageOfhumor,imageOfsuccess,imageOfhappiness,imageRandom];
     const addFavorite = () => {
             console.log(favorites)
             console.log(quote_data)
@@ -42,17 +53,59 @@ const removeFavorite = (index) => {
   };
 
   const generateQuotes = async(selectCategory = " ")=>{
-        if (selectCategory == "random") return selectCategory == " ";
+        // if (selectCategory == "random") return selectCategory == "";
         // if(typeof (selectCategory) === "object") return selectCategory == " "
+        
         let options = {
             method: 'GET',
             headers: { 'x-api-key': import.meta.env.VITE_APP_API_KEY,}
           }
-          
-            //  const url = `https://api.api-ninjas.com/v1/quotes?category=${selectCategory}`;
-             const url = `https://api.api-ninjas.com/v2/randomquotes?category=${selectCategory}`;
-          
-          console.log(url)
+          console.log(selectCategory)
+          let url;
+            // const  url = `https://api.api-ninjas.com/v1/quotes?category=${selectCategory}`;
+            //  const url = `https://api.api-ninjas.com/v2/randomquotes?category=${selectCategory}`;
+              const urlrelationship = `https://api.api-ninjas.com/v2/randomquotes?categories=relationships`;
+              const urllove = `https://api.api-ninjas.com/v2/randomquotes?categories=love`;
+              const urlfaith = `https://api.api-ninjas.com/v2/randomquotes?categories=faith`;
+               const urlhappiness = `https://api.api-ninjas.com/v2/randomquotes?categories=happiness`;
+              const urlhumor = `https://api.api-ninjas.com/v2/randomquotes?categories=humor`;
+              const urlinspirational = `https://api.api-ninjas.com/v2/randomquotes?categories=inspirational`;
+              const urlsuccess = `https://api.api-ninjas.com/v2/randomquotes?categories=success`;
+              switch (selectCategory) {
+                case "love":
+                  url = urllove
+                  // setimageName(imageBack[2])
+                  break;
+                   case "faith":
+                  url = urlfaith
+                  // setimageName(imageBack[3])
+                  break;
+                   case "relationships":
+                  url = urlrelationship
+                  // setimageName(imageBack[1])
+                  break;
+                   case "inspirational":
+                  url = urlinspirational
+                  // setimageName(imageBack[0])
+                  break;
+                   case "humor":
+                  url = urlhumor
+                  // setimageName(imageBack[4])
+                  break;
+                   case "success":
+                  url = urlsuccess
+                  // setimageName(imageBack[5])
+                  break;
+                 case "happiness":
+                  url = urlhappiness
+                  // setimageName(imageBack[6])
+                  break;
+                default:
+                  url = `https://api.api-ninjas.com/v2/randomquotes?category=`;
+                  // setimageName(imageBack[7])
+                  break;
+              }
+          console.log(imageName)
           fetch(url,options)
                 .then(res => res.json()) // parse response as JSON
                 .then(data => {
@@ -68,15 +121,13 @@ const removeFavorite = (index) => {
                     console.log(`error ${err}`)
                 }); 
     }
-    const generateQuotesOfTheDay = async(selectCategory = " ")=>{
-        if (selectCategory == "random") return selectCategory == " ";
+    const generateQuotesOfTheDay = async()=>{
             
         let options = {
             method: 'GET',
             headers: { 'x-api-key': import.meta.env.VITE_APP_API_KEY,}
           }
           
-            //  const url = `https://api.api-ninjas.com/v1/quotes?category=${selectCategory}`;
              const url = `https://api.api-ninjas.com/v2/quoteoftheday`;
           
           console.log(url)
@@ -114,7 +165,7 @@ useEffect(() => {
 }, [favorites]);
      useEffect(() => {
     // fetchQuote();
-    generateQuotes(selectCategory);
+    generateQuotes("");
     generateQuotesOfTheDay();
   }, []);
     return(
@@ -133,10 +184,10 @@ useEffect(() => {
                   
                 </div>
             {/* </div> */}
-            {/* <div> */}
+            <div>
               {/* Categories */}
-        {/* <div className="mb-3 text-center">
-          {categories.map((c) => (
+        <div className="mb-3 text-center">
+          {categories.map((c,index) => (
             <button
               key={c}
               className={`btn me-2 ${
@@ -147,12 +198,12 @@ useEffect(() => {
               {c}
             </button>
           ))}
-        </div> */}
-            {/* </div> width 95% */}
-            <div className="row"  style={{ width: '95%' }}>
+        </div>
+            </div> 
+            <div className="row"  style={{ width: '95%', height: "80%" }}>
                 {/* favorite */}
                 <div className="col-md-4 ml-2">
-                    <div className={`card ${darkbutton && "bg-secondary text-light"}`}>
+                    <div className={`card overflow-auto ${darkbutton && "bg-secondary text-light"}`} style={{ maxHeight: "80vh" }}>
                         <div className="card-body">
                             <h5 className="card-title">Favorites</h5>
                             {favorites.length === 0 && (
@@ -176,10 +227,13 @@ useEffect(() => {
                     </div>
                 </div>
                 {/* Quote  */}
-                <div className="col-md-8 vw-95">
-                    <div>
-                        
-                        <div className={`card p-4 ${darkbutton && "bg-secondary text-light"}`}>
+                <div className="col-md-8 vw-95 h-100">
+                  <div className="m-auto w-75 h-75">                        
+                        <div className={`card  m-auto modifpadding ${darkbutton && "bg-secondary text-light"}`}  style={{
+    backgroundImage: `url("${imageName}")`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  }}>
                             <blockquote className="blockquote text-center">
                                 <p className="fs-4">“{quote_data.content}”</p>
                                 <footer className="blockquote-footer mt-2 ">
@@ -233,7 +287,7 @@ useEffect(() => {
       <div className="modal-body">
         <p className="fs-4">“{quote_day.content}”</p>
                                 {/* <footer className="blockquote-footer mt-2"> */}
-                                  <spam className={`${darkbutton && " text-light"}`} >{quote_data.author}</spam> 
+                                  <spam className={`${darkbutton && " text-light"}`} >{quote_day.author}</spam> 
                                 {/* </footer> */}
       </div>
       <div className="modal-footer">

@@ -55,7 +55,7 @@
   height: 400px;
   border-radius: 20px;
   overflow: hidden;
-  background-image: url("https://images.unsplash.com/photo-1506744038136-46273834b3fb");
+  background-image: url("./assets/bacckground.webp");
   background-size: cover;
   background-position: center;
   color: white;
@@ -76,4 +76,14 @@
 .custom-modal .modal-footer {
   position: relative;
   z-index: 2;
+}
+.fist{
+  height: 500px;
+}
+.modifpadding{
+  padding: 7rem !important;
+  height: 100% !important;
+  /* background-image: url("./assets/humor.avif");
+  background-size: cover;
+  background-position: center; */
 }
